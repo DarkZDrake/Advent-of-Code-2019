@@ -16,14 +16,17 @@ const calcolateFuelRequirement = modules => {
   let total_needingv2 = 0;
 
   modules.forEach(module => {
-    total_needingv2 += calcolateTotalNeeded(module);
+    total_needingv2 = calcolateTotalNeeded(module);
   });
   return total_needingv2;
 };
 
 const calcolateTotalNeeded = mass => {
-  console.log(total);
-  if (mass <= 8) return total;
+  if (mass <= 8) {
+    console.log("condizione  " + total);
+    return total
+  }
+  ;
   total += calcolateNeededFuel(mass);
   return calcolateTotalNeeded(calcolateNeededFuel(mass));
 };
