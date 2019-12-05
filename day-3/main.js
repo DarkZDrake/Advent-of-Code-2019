@@ -14,6 +14,7 @@ const findIntersections = () => {
         console.log(path1, path2);
         drawPath(originalWire1[i], path1);
         drawPath(originalWire2[i], path2);
+        console.log("i");
     }
 };
 
