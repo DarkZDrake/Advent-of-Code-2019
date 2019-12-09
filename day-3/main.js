@@ -1,40 +1,48 @@
-const fs = require('fs');
-const input = fs.readFileSync('input', {encoding: 'utf8'}).replace(" ", "").split('\n');
-const originalWire1 = input[0].split(',');
-const originalWire2 = input[1].split(',');
-const CENTRAL_PORT = {'x': 0, 'y': 0};
-let [path1, path2] = [CENTRAL_PORT, CENTRAL_PORT];
+const fs = require("fs");
+const input = fs
+  .readFileSync("input", { encoding: "utf8" })
+  .replace(" ", "")
+  .split("\n");
+const instructions1 = input[0].split(",");
+const instructions2 = input[1].split(",");
+const CENTRAL_PORT = [0, 0];
+let [path1, path2] = [[], []];
 let [wire1, wire2] = [[], []];
-originalWire1.map(x => wire1.push({'direction': x[0], 'value': x.slice(1)}));
-originalWire2.map(x => wire2.push({'direction': x[0], 'value': x.slice(1)}));
-const longest_wire = originalWire1.length < originalWire2.length ? originalWire2.length : originalWire1.length;
+
+path1[0] = CENTRAL_PORT.slice();
+path2[0] = CENTRAL_PORT.slice();
+
+instructions1.map(x => wire1.push([x[0], x.slice(1)]));
+instructions2.map(x => wire2.push([x[0], x.slice(1)]));
+
+const longest_wire =
+  instructions1.length < instructions2.length
+    ? instructions2.length
+    : instructions1.length;
 
 const findIntersections = () => {
-    for (let i = 0; i < longest_wire; i++) {
-        console.log(path1, path2);
-        drawPath(originalWire1[i], path1);
-        drawPath(originalWire2[i], path2);
-        console.log("i");
-    }
+  for (let i = 0; i < longest_wire; i++) {
+    drawPath(instructions1[i], path1[i].slice(), path1);
+    drawPath(instructions2[i], path2[i].slice(), path2);
+  }
 };
 
-const drawPath = (x, path) => {
-    console.log(x)
-    switch (x[0]) {
-        case 'R':
-            path.x += parseInt(x.slice(1));
-            break;
-        case 'D':
-            path.y += parseInt(x.slice(1));
-            break;
-        case 'L':
-            path.x -= parseInt(x.slice(1));
-            break;
-        case 'U':
-            path.y -= parseInt(x.slice(1));
-            break;
-    }
+const drawPath = (x, point, path) => {
+  switch (x[0]) {
+    case "R":
+      point[0] += parseInt(x.slice(1));
+      break;
+    case "D":
+      point[1] += parseInt(x.slice(1));
+      break;
+    case "L":
+      point[0] -= parseInt(x.slice(1));
+      break;
+    case "U":
+      point[1] -= parseInt(x.slice(1));
+      break;
+  }
+  path.push(point.slice());
 };
-
 
 findIntersections();
